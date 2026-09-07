@@ -1,0 +1,14 @@
+version: 1
+model:
+  name: "Два контекста"
+  purpose: "Проверить E010"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+  - id: B0
+    name: "Обработать обращение"
+    control: [ "Регламент" ]
+    output: [ "Ответ" ]

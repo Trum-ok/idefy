@@ -1,0 +1,31 @@
+version: 1
+model:
+  name: "Туннели"
+  author: "Тест"
+  purpose: "Проверить туннелирование"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    input: [ "Заявка" ]
+    control: [ "Регламент", "Инструкция" ]
+    output: [ "Решение" ]
+  - id: A1
+    name: "Проверить заявку"
+    input: [ "Заявка" ]
+    control: [ "Регламент" ]
+    output: [ "Проверенная заявка", "Черновик" ]
+  - id: A2
+    name: "Принять решение"
+    input: [ "Проверенная заявка" ]
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+arrows:
+  - name: "Инструкция"
+    from: external
+    to: A0
+    tunnel: dest
+  - name: "Черновик"
+    from: A1
+    to: external
+    tunnel: dest

@@ -1,0 +1,10 @@
+version: 1
+model:
+  name: "Без A0"
+  purpose: "Проверить E009"
+  viewpoint: "Аналитик"
+activities:
+  - id: B0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]

@@ -1,0 +1,31 @@
+version: 1
+model:
+  name: "Обработка заявки"
+  author: "Тест"
+  purpose: "Проверить разрешение стрелок"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    input: [ "Заявка" ]
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+    mechanism: [ "Аналитик" ]
+  - id: A1
+    name: "Проверить заявку"
+    input: [ "Заявка" ]
+    control: [ "Регламент" ]
+    output: [ "Проверенная заявка" ]
+    mechanism: [ "Аналитик" ]
+  - id: A2
+    name: "Оценить риск"
+    input: [ "Проверенная заявка" ]
+    control: [ "Регламент" ]
+    output: [ "Оценка риска" ]
+    mechanism: [ "Аналитик" ]
+  - id: A3
+    name: "Принять решение"
+    input: [ "Оценка риска" ]
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+    mechanism: [ "Аналитик" ]
