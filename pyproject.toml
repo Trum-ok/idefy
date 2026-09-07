@@ -1,0 +1,124 @@
+[project]
+name = "idefy"
+dynamic = ["version"]
+description = "Генератор IDEF0-моделей из YAML: валидация нотации, автораскладка, превью и сборка файла Ramus"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [
+    { name = "Arkadii Artamonov", email = "artamarkan@gmail.com" }
+]
+keywords = [
+    "idef0",
+    "ramus",
+    "diagram",
+    "modeling",
+    "business-process",
+    "yaml",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Software Development :: Documentation",
+]
+dependencies = [
+    "typer>=0.20.0",
+    "rich>=14.0.0",
+    "pydantic>=2.0.0",
+    "ruamel.yaml>=0.18.0",
+]
+
+[project.optional-dependencies]
+png = [
+    "cairosvg>=2.7.0",
+]
+
+[project.urls]
+Homepage = "https://trum-ok.github.io/idefy/"
+Documentation = "https://trum-ok.github.io/idefy/"
+Repository = "https://github.com/Trum-ok/idefy"
+Issues = "https://github.com/Trum-ok/idefy/issues"
+
+[project.scripts]
+idefy = "idefy.cli:app"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/idefy/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/idefy"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [".cache", ".github", ".idea", "site", "local"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.5",
+    "ty>=0.0.78",
+]
+docs = [
+    "properdocs>=1.6.7",
+    "mkdocs-material>=9.7.0",
+    "mkdocs-literate-nav>=0.6.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["idefy"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "B",
+    "C4",
+    "UP",
+    "N",
+    "RUF",
+    "SIM",
+]
+ignore = [
+    "E501",
+    "B008",
+    "RUF001", # кириллица в строках
+    "RUF002", # кириллица в докстрингах
+    "RUF003", # кириллица в комментариях
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ty.environment]
+python-version = "3.12"
+root = ["src", "tests"]
+
+[tool.ty.src]
+include = ["src", "tests"]

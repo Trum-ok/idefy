@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+.env
+.env.staging
+.env.prod
+
+# IDE
+.vscode/
+.idea/
+
+# Python tooling
+.poetry/
+.mypy_cache/
+.pytype/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Собранный сайт документации
+site/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# OS
+.DS_Store
+
+# Docker
+*.log
+
+# Local overrides
+*.local.*
+local/
+
+# Claude
+.claude/worktrees/
+.claude/agent-memory/
+
+# Ruff
+.ruff_cache/
+
+# Кэш сборки документации
+.cache/
+
+# Производные артефакты моделей
+preview/
+*.rsf
+*.svg
+*.png
+!src/idefy/rsf/blank.rsf
+!tests/golden/*.rsf
+!tests/golden/*.svg
+!docs/**/*.svg
+!docs/**/*.png
