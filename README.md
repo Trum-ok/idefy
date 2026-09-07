@@ -4,17 +4,14 @@
 превью в SVG/PNG и сборка нативного файла Ramus (`.rsf`).
 
 Модель — это файл в вашем репозитории. Картинки и `.rsf` — производные артефакты.
+Java и сам Ramus для сборки не нужны: `.rsf` пишется напрямую.
+
+Документация: <https://trum-ok.github.io/idefy/>
 
 ## Установка
 
 ```bash
 uv tool install git+https://github.com/Trum-ok/idefy
-```
-
-Или в проект:
-
-```bash
-uv add git+https://github.com/Trum-ok/idefy
 ```
 
 PNG-превью требует дополнительной зависимости:
@@ -23,8 +20,7 @@ PNG-превью требует дополнительной зависимос�
 uv tool install "idefy[png] @ git+https://github.com/Trum-ok/idefy"
 ```
 
-Нужен Python 3.12+. Java и сам Ramus для сборки `.rsf` не нужны — файл пишется
-напрямую. Ramus нужен только чтобы открыть результат.
+Нужен Python 3.12 или новее.
 
 ## Быстрый старт
 
@@ -72,34 +68,9 @@ activities:
 Стрелки не объявляются: они выводятся сопоставлением имён в ICOM-списках соседей
 и родителя. Идентификаторы иерархические — родитель `A11` выводится из имени.
 
-## Команды
-
-| Команда                            | Что делает                              |
-|------------------------------------|-----------------------------------------|
-| `idefy init [PATH]`                | создать `model.yaml` из шаблона         |
-| `idefy validate MODEL`             | проверить нотацию                       |
-| `idefy preview MODEL [-o DIR]`     | нарисовать диаграммы в SVG или PNG      |
-| `idefy build MODEL [-o FILE.rsf]`  | собрать файл Ramus                      |
-| `idefy open FILE.rsf`              | открыть файл в Ramus                    |
-| `idefy schema [-o FILE]`           | выгрузить JSON Schema языка             |
-| `idefy doctor`                     | проверить шаблон `.rsf` и путь к Ramus  |
-
-Все команды понимают `--json` для машинного вывода и `-q` для тишины.
-
-Коды возврата: `0` успех, `1` ошибки валидации, `2` ошибка использования,
-`3` проблема окружения.
-
-## Конфигурация
-
-Путь к Ramus нужен только команде `idefy open`. Приоритет источников:
-флаг `--ramus`, переменная `IDEFY_RAMUS_PATH`, файл конфигурации, автопоиск.
-
-```toml
-# ~/.config/idefy/config.toml
-ramus = "/Applications/Ramus.app"
-```
-
-`idefy doctor` покажет, что откуда взялось.
+Полный [справочник по языку](https://trum-ok.github.io/idefy/dsl/),
+[команды и коды возврата](https://trum-ok.github.io/idefy/cli/),
+[памятка по нотации](https://trum-ok.github.io/idefy/idef0/).
 
 ## Работа с Claude Code
 
@@ -112,6 +83,7 @@ ramus = "/Applications/Ramus.app"
 ```bash
 uv sync
 make check
+make docs
 ```
 
 `make check` — это `ruff`, `ty` и `pytest`. Сеть в тестах не используется.

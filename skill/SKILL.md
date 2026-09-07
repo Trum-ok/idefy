@@ -73,7 +73,8 @@ arrows:
     tunnel: dest                            # none | source | dest | both
 ```
 
-Полная JSON Schema: `idefy schema`. Никаких других полей у функции нет.
+Никаких других полей у функции нет. Машиночитаемая схема — `idefy schema`,
+полный справочник — <https://trum-ok.github.io/idefy/dsl/>.
 
 ## Как выводятся стрелки
 

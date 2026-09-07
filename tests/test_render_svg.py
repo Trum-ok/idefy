@@ -1,6 +1,6 @@
 import pytest
 
-from conftest import GOLDEN, represent
+from conftest import GOLDEN, keep, represent
 from idefy import render_svg
 
 GOLDEN_CASES = [
@@ -19,8 +19,9 @@ def render(fixture: str, diagram_id: str) -> str:
 
 @pytest.mark.parametrize(("fixture", "diagram_id"), GOLDEN_CASES)
 def test_matches_golden(fixture, diagram_id):
-    expected = (GOLDEN / f"{fixture}.{diagram_id}.svg").read_text(encoding="utf-8")
-    assert render(fixture, diagram_id) == expected
+    produced = render(fixture, diagram_id)
+    keep(f"{fixture}.{diagram_id}.svg", produced.encode("utf-8"))
+    assert produced == (GOLDEN / f"{fixture}.{diagram_id}.svg").read_text(encoding="utf-8")
 
 
 @pytest.mark.parametrize(("fixture", "diagram_id"), GOLDEN_CASES)

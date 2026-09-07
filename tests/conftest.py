@@ -10,6 +10,12 @@ from idefy.ir import IR
 
 FIXTURES = Path(__file__).parent / "fixtures"
 GOLDEN = Path(__file__).parent / "golden"
+ACTUAL = Path(__file__).parent / ".actual"
+
+
+def keep(name: str, data: bytes) -> None:
+    ACTUAL.mkdir(exist_ok=True)
+    (ACTUAL / name).write_bytes(data)
 
 
 @pytest.fixture

@@ -20,7 +20,7 @@ coverage:
 check: lint test
 
 docs:
-	uv run --group docs properdocs build --strict
+	uv run --group docs properdocs build --strict -f mkdocs.yml
 
 docs-serve:
-	uv run --group docs properdocs serve
+	uv run --group docs properdocs serve -f mkdocs.yml

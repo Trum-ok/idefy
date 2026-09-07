@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from conftest import GOLDEN, represent
+from conftest import GOLDEN, keep, represent
 from idefy import write_rsf
 from idefy.rsf import tables
 
@@ -63,7 +63,9 @@ def test_built_file_has_no_type_violations(fixture, tmp_path):
 
 @pytest.mark.parametrize("fixture", GOLDEN_CASES)
 def test_matches_golden(fixture, tmp_path):
-    assert contents(built(fixture, tmp_path)) == contents(GOLDEN / f"{fixture}.rsf")
+    produced = built(fixture, tmp_path)
+    keep(f"{fixture}.rsf", produced.read_bytes())
+    assert contents(produced) == contents(GOLDEN / f"{fixture}.rsf")
 
 
 def test_build_is_deterministic(tmp_path):

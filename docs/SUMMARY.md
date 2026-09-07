@@ -1,0 +1,4 @@
+- [idefy](index.md)
+- [Язык](dsl.md)
+- [Команды](cli.md)
+- [Нотация IDEF0](idef0.md)
