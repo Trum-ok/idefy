@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="444" viewBox="0 0 800 444">
+<title>valid A0</title>
+<rect x="0" y="0" width="800" height="444" fill="#ffffff"/>
+<g fill="none" stroke="#000000" stroke-width="1">
+<rect x="7.5" y="7.5" width="785" height="429"/>
+</g>
+<rect x="150" y="104" width="120" height="56" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+<text x="210" y="135.67" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" fill="#000000">Проверить заявку</text>
+<text x="266" y="155" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="end" fill="#000000">A1</text>
+<rect x="340" y="194" width="120" height="56" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+<text x="400" y="225.67" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" fill="#000000">Оценить риск</text>
+<text x="456" y="245" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="end" fill="#000000">A2</text>
+<rect x="530" y="284" width="120" height="56" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+<text x="590" y="315.67" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" fill="#000000">Принять решение</text>
+<text x="646" y="335" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="end" fill="#000000">A3</text>
+<polyline points="210,437 210,160" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="210,160 213.5,168 206.5,168" fill="#000000"/>
+<text x="213" y="433" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">M1</text>
+<polyline points="210,437 210,355 400,355 400,250" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="400,250 403.5,258 396.5,258" fill="#000000"/>
+<text x="213" y="433" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">M1</text>
+<polyline points="210,437 210,355 590,355 590,340" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="590,340 593.5,348 586.5,348" fill="#000000"/>
+<text x="400" y="349" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Аналитик</text>
+<text x="213" y="433" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">M1</text>
+<polyline points="7,132 150,132" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="150,132 142,135.5 142,128.5" fill="#000000"/>
+<text x="78" y="126" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Заявка</text>
+<text x="10" y="128" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">I1</text>
+<polyline points="460,222 495,222 495,312 530,312" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="530,312 522,315.5 522,308.5" fill="#000000"/>
+<text x="477" y="264" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Оценка риска</text>
+<polyline points="270,132 305,132 305,222 340,222" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="340,222 332,225.5 332,218.5" fill="#000000"/>
+<text x="287" y="174" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Проверенная заявка</text>
+<polyline points="210,7 210,104" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="210,104 206.5,96 213.5,96" fill="#000000"/>
+<text x="213" y="18" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">C1</text>
+<polyline points="210,7 210,89 400,89 400,194" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="400,194 396.5,186 403.5,186" fill="#000000"/>
+<text x="213" y="18" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">C1</text>
+<polyline points="210,7 210,89 590,89 590,284" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="590,284 586.5,276 593.5,276" fill="#000000"/>
+<text x="400" y="83" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Регламент</text>
+<text x="213" y="18" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">C1</text>
+<polyline points="650,312 793,312" fill="none" stroke="#000000" stroke-width="1"/>
+<text x="721" y="306" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Решение</text>
+<text x="790" y="308" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="end" fill="#000000">O1</text>
+</svg>

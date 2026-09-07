@@ -1,0 +1,9 @@
+version: 1
+model:
+  name: "Без управления"
+  purpose: "Проверить E004"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    output: [ "Решение" ]

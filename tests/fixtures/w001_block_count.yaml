@@ -1,0 +1,19 @@
+version: 1
+model:
+  name: "Два блока"
+  purpose: "Проверить W001"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+  - id: A1
+    name: "Проверить заявку"
+    control: [ "Регламент" ]
+    output: [ "Проверенная заявка" ]
+  - id: A2
+    name: "Принять решение"
+    input: [ "Проверенная заявка" ]
+    control: [ "Регламент" ]
+    output: [ "Решение" ]

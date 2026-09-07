@@ -1,0 +1,11 @@
+version: 1
+model:
+  name: "Петля"
+  purpose: "Проверить E008"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    input: [ "Решение" ]
+    control: [ "Регламент" ]
+    output: [ "Решение" ]

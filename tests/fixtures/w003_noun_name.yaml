@@ -1,0 +1,10 @@
+version: 1
+model:
+  name: "Существительное"
+  purpose: "Проверить W003"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработка заявки"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]

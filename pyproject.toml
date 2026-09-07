@@ -111,6 +111,9 @@ ignore = [
     "RUF003", # кириллица в комментариях
 ]
 
+[tool.ruff.lint.isort]
+known-first-party = ["idefy", "conftest"]
+
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"

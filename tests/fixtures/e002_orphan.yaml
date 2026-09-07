@@ -1,0 +1,14 @@
+version: 1
+model:
+  name: "Сирота"
+  purpose: "Проверить E002"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+  - id: A21
+    name: "Сделать что-то"
+    control: [ "Регламент" ]
+    output: [ "Результат" ]

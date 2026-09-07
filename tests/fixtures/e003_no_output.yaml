@@ -1,0 +1,9 @@
+version: 1
+model:
+  name: "Без выхода"
+  purpose: "Проверить E003"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]

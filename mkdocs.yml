@@ -1,0 +1,45 @@
+site_name: idefy
+site_description: Генератор IDEF0-моделей из YAML с валидацией нотации, автораскладкой и сборкой файла Ramus
+site_url: https://trum-ok.github.io/idefy/
+repo_url: https://github.com/Trum-ok/idefy
+repo_name: Trum-ok/idefy
+edit_uri: edit/master/docs/
+copyright: MIT
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.instant
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Тёмная тема
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Светлая тема
+
+plugins:
+  - search
+  - literate-nav:
+      nav_file: SUMMARY.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+  - pymdownx.details
+  - pymdownx.superfences

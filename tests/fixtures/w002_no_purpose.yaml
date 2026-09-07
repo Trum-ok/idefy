@@ -1,0 +1,8 @@
+version: 1
+model:
+  name: "Без цели"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]

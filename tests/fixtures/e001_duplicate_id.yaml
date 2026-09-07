@@ -1,0 +1,14 @@
+version: 1
+model:
+  name: "Дубль"
+  purpose: "Проверить E001"
+  viewpoint: "Аналитик"
+activities:
+  - id: A0
+    name: "Обработать заявку"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]
+  - id: A0
+    name: "Обработать заявку ещё раз"
+    control: [ "Регламент" ]
+    output: [ "Решение" ]

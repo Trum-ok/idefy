@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="444" viewBox="0 0 800 444">
+<title>tunnel A-0</title>
+<rect x="0" y="0" width="800" height="444" fill="#ffffff"/>
+<g fill="none" stroke="#000000" stroke-width="1">
+<rect x="7.5" y="7.5" width="785" height="429"/>
+</g>
+<rect x="286" y="183" width="228" height="78" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+<text x="400" y="225.67" font-family="Arial, Helvetica, sans-serif" font-size="11" text-anchor="middle" fill="#000000">Обработать заявку</text>
+<text x="510" y="256" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="end" fill="#000000">A0</text>
+<polyline points="7,222 286,222" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="286,222 278,225.5 278,218.5" fill="#000000"/>
+<text x="146" y="216" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Заявка</text>
+<text x="10" y="218" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">I1</text>
+<polyline points="438,7 438,183" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="438,183 434.5,175 441.5,175" fill="#000000"/>
+<path d="M 442 187 Q 438 193.4 434 187" fill="none" stroke="#000000" stroke-width="1"/>
+<path d="M 442 179 Q 438 172.6 434 179" fill="none" stroke="#000000" stroke-width="1"/>
+<text x="469" y="95" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Инструкция</text>
+<text x="441" y="18" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">C2</text>
+<polyline points="362,7 362,183" fill="none" stroke="#000000" stroke-width="1"/>
+<polygon points="362,183 358.5,175 365.5,175" fill="#000000"/>
+<text x="390" y="95" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Регламент</text>
+<text x="365" y="18" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="start" fill="#000000">C1</text>
+<polyline points="514,222 793,222" fill="none" stroke="#000000" stroke-width="1"/>
+<text x="653" y="216" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="middle" fill="#000000">Решение</text>
+<text x="790" y="218" font-family="Arial, Helvetica, sans-serif" font-size="9" text-anchor="end" fill="#000000">O1</text>
+</svg>
