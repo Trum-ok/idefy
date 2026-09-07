@@ -28,7 +28,7 @@ def test_fixture_reports_its_code(fixture, code):
     assert code in codes(fixture)
 
 
-@pytest.mark.parametrize("fixture", ["valid", "feedback6", "tunnel", "context_only"])
+@pytest.mark.parametrize("fixture", ["valid", "feedback6", "tunnel", "context_only", "two_levels"])
 def test_clean_fixtures_have_no_errors(fixture):
     assert not validate.has_errors(diagnose(fixture))
 

@@ -141,6 +141,29 @@ def test_preview_png_without_cairosvg(tmp_path, monkeypatch):
     assert "cairosvg" in envelope(result)["error"]
 
 
+def test_build_writes_next_to_the_model(tmp_path):
+    model = tmp_path / "model.yaml"
+    run("init", str(model))
+    result = run("build", str(model))
+    assert result.exit_code == 0
+    assert (tmp_path / "model.rsf").exists()
+
+
+def test_build_honours_output_option(tmp_path):
+    target = tmp_path / "вложенный" / "проект.rsf"
+    result = run("build", str(FIXTURES / "valid.yaml"), "-o", str(target), "--json")
+    assert result.exit_code == 0
+    assert envelope(result)["result"] == {"path": str(target)}
+    assert target.exists()
+
+
+def test_build_refuses_a_broken_model(tmp_path):
+    target = tmp_path / "проект.rsf"
+    result = run("build", str(FIXTURES / "e006_unresolved.yaml"), "-o", str(target))
+    assert result.exit_code == 1
+    assert not target.exists()
+
+
 def test_schema_to_stdout():
     result = run("schema", "--json")
     payload = envelope(result)

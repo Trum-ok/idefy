@@ -9,7 +9,7 @@ from typing import Annotated, Any, NoReturn
 import typer
 from rich.console import Console
 
-from idefy import __version__, ir, layout, parse, render_svg, validate
+from idefy import __version__, ir, layout, parse, render_svg, validate, write_rsf
 from idefy.diagnostics import Diagnostic
 
 EXIT_OK = 0
@@ -144,6 +144,25 @@ def preview(
         result["ir"] = str(dump_ir)
     _emit(diagnostics, result, json_output, quiet, "\n".join(written))
     raise typer.Exit(EXIT_DIAGNOSTICS if validate.has_errors(diagnostics) else EXIT_OK)
+
+
+@app.command()
+def build(
+    model: Annotated[Path, typer.Argument(help="Файл модели")],
+    output: Annotated[
+        Path | None, typer.Option("-o", "--output", help="Куда положить .rsf")
+    ] = None,
+    json_output: JsonOption = False,
+    quiet: QuietOption = False,
+) -> None:
+    diagnostics, _, representation = _analyse(model, json_output)
+    if validate.has_errors(diagnostics):
+        _emit(diagnostics, None, json_output, quiet, "")
+        raise typer.Exit(EXIT_DIAGNOSTICS)
+    target = output or model.with_suffix(".rsf")
+    write_rsf.build(representation, target)
+    _emit(diagnostics, {"path": str(target)}, json_output, quiet, str(target))
+    raise typer.Exit(EXIT_OK)
 
 
 def _write_png(svg: str, target: Path, json_output: bool) -> None:
