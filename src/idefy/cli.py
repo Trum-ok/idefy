@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from enum import StrEnum
 from importlib import resources
 from pathlib import Path
@@ -9,8 +10,9 @@ from typing import Annotated, Any, NoReturn
 import typer
 from rich.console import Console
 
-from idefy import __version__, ir, layout, parse, render_svg, validate, write_rsf
+from idefy import __version__, config, ir, layout, parse, render_svg, validate, write_rsf
 from idefy.diagnostics import Diagnostic
+from idefy.rsf import tables
 
 EXIT_OK = 0
 EXIT_DIAGNOSTICS = 1
@@ -47,12 +49,12 @@ def main(
     pass
 
 
-@app.command()
+@app.command(help="Показать версию")
 def version() -> None:
     typer.echo(__version__)
 
 
-@app.command()
+@app.command(help="Создать model.yaml из шаблона")
 def init(
     path: Annotated[Path, typer.Argument(help="Куда положить модель")] = Path("model.yaml"),
     json_output: JsonOption = False,
@@ -68,7 +70,7 @@ def init(
     _emit([], {"path": str(path)}, json_output, quiet, f"Создан {path}")
 
 
-@app.command()
+@app.command(help="Выгрузить JSON Schema языка")
 def schema(
     output: Annotated[Path | None, typer.Option("-o", "--output", help="Файл для схемы")] = None,
     json_output: JsonOption = False,
@@ -86,7 +88,7 @@ def schema(
     _emit([], {"path": str(output)}, json_output, quiet, f"Схема записана в {output}")
 
 
-@app.command("validate")
+@app.command("validate", help="Проверить нотацию")
 def validate_command(
     model: Annotated[Path, typer.Argument(help="Файл модели")],
     json_output: JsonOption = False,
@@ -97,7 +99,7 @@ def validate_command(
     raise typer.Exit(EXIT_DIAGNOSTICS if validate.has_errors(diagnostics) else EXIT_OK)
 
 
-@app.command()
+@app.command(help="Нарисовать диаграммы в SVG или PNG")
 def preview(
     model: Annotated[Path, typer.Argument(help="Файл модели")],
     output: Annotated[Path, typer.Option("-o", "--output", help="Каталог для картинок")] = Path(
@@ -146,7 +148,7 @@ def preview(
     raise typer.Exit(EXIT_DIAGNOSTICS if validate.has_errors(diagnostics) else EXIT_OK)
 
 
-@app.command()
+@app.command(help="Собрать файл Ramus")
 def build(
     model: Annotated[Path, typer.Argument(help="Файл модели")],
     output: Annotated[
@@ -163,6 +165,122 @@ def build(
     write_rsf.build(representation, target)
     _emit(diagnostics, {"path": str(target)}, json_output, quiet, str(target))
     raise typer.Exit(EXIT_OK)
+
+
+@app.command("open", help="Открыть .rsf в Ramus")
+def open_command(
+    file: Annotated[Path, typer.Argument(help="Файл .rsf")],
+    ramus: Annotated[
+        Path | None, typer.Option("--ramus", help="Путь к Ramus, приоритетнее конфига")
+    ] = None,
+    json_output: JsonOption = False,
+    quiet: QuietOption = False,
+) -> None:
+    if not file.is_file():
+        _fail(f"Файл не найден: {file}", json_output)
+    found = config.find_ramus(ramus)
+    if found is None or not found.path.exists():
+        _environment(
+            f"Ramus не найден{'' if found is None else f': {found.path}'}",
+            f"укажите путь: --ramus PATH, переменная {config.ENV_RAMUS} "
+            f'или ramus = "..." в {config.config_path()}',
+            json_output,
+        )
+    command = config.launch_command(found.path, file)
+    try:
+        subprocess.Popen(command, start_new_session=True)
+    except OSError as exc:
+        _environment(f"Не удалось запустить Ramus: {exc}", None, json_output)
+    _emit(
+        [],
+        {"ramus": str(found.path), "source": found.source, "file": str(file)},
+        json_output,
+        quiet,
+        f"Запущен {found.path}",
+    )
+
+
+@app.command(help="Проверить шаблон .rsf и путь к Ramus")
+def doctor(
+    json_output: JsonOption = False,
+    quiet: QuietOption = False,
+) -> None:
+    checks = [_check_template(), _check_config(), _check_ramus(), _check_png()]
+    broken = [check for check in checks if check["level"] == "fail"]
+    if json_output:
+        typer.echo(
+            json.dumps(
+                {"ok": not broken, "diagnostics": [], "result": {"checks": checks}},
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+    elif not quiet:
+        marks = {"ok": "[green]ок[/]", "warn": "[yellow]нет[/]", "fail": "[red]сломано[/]"}
+        for check in checks:
+            console.print(f"{marks[check['level']]} {check['name']}: {check['detail']}")
+    raise typer.Exit(EXIT_ENVIRONMENT if broken else EXIT_OK)
+
+
+def _check_template() -> dict[str, str]:
+    try:
+        path = write_rsf.template_path()
+        archive = tables.read(path)
+        problems = tables.check_types(archive)
+    except Exception as exc:
+        return _check("шаблон .rsf", "fail", f"{type(exc).__name__}: {exc}")
+    if problems:
+        return _check("шаблон .rsf", "fail", f"{len(problems)} значений не по типу колонки")
+    return _check("шаблон .rsf", "ok", f"таблиц: {len(archive.tables)}, {path}")
+
+
+def _check_config() -> dict[str, str]:
+    path = config.config_path()
+    if not path.is_file():
+        return _check("конфиг", "warn", f"нет файла {path}")
+    return _check("конфиг", "ok", str(path))
+
+
+def _check_ramus() -> dict[str, str]:
+    found = config.find_ramus()
+    if found is None:
+        return _check("Ramus", "warn", "не найден, нужен только для idefy open")
+    if not found.path.exists():
+        return _check("Ramus", "warn", f"{found.path} ({found.source}) не существует")
+    return _check("Ramus", "ok", f"{found.path} ({found.source})")
+
+
+def _check_png() -> dict[str, str]:
+    try:
+        import cairosvg  # ty: ignore[unresolved-import]  # noqa: F401
+    except ImportError:
+        return _check("PNG", "warn", "нет cairosvg, доступен только --format svg")
+    return _check("PNG", "ok", "cairosvg на месте")
+
+
+def _check(name: str, level: str, detail: str) -> dict[str, str]:
+    return {"name": name, "level": level, "detail": detail}
+
+
+def _environment(message: str, hint: str | None, json_output: bool) -> NoReturn:
+    if json_output:
+        typer.echo(
+            json.dumps(
+                {
+                    "ok": False,
+                    "diagnostics": [],
+                    "result": None,
+                    "error": message if hint is None else f"{message}: {hint}",
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+    else:
+        errors.print(f"[bold red]Ошибка[/]: {message}")
+        if hint:
+            errors.print(f"    [dim]подсказка:[/] {hint}")
+    raise typer.Exit(EXIT_ENVIRONMENT)
 
 
 def _write_png(svg: str, target: Path, json_output: bool) -> None:

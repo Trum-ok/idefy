@@ -1,9 +1,10 @@
 import json
 
+import pytest
 from typer.testing import CliRunner
 
 from conftest import FIXTURES
-from idefy import __version__
+from idefy import __version__, config
 from idefy.cli import app
 
 runner = CliRunner()
@@ -192,3 +193,86 @@ def test_quiet_hides_success_message(tmp_path):
     result = run("init", str(target), "-q")
     assert result.exit_code == 0
     assert result.stdout.strip() == ""
+
+
+@pytest.fixture
+def without_ramus(monkeypatch, tmp_path):
+    monkeypatch.delenv(config.ENV_RAMUS, raising=False)
+    monkeypatch.setenv(config.ENV_CONFIG, str(tmp_path / "config.toml"))
+    monkeypatch.setattr(config, "discover", lambda: None)
+
+
+def test_open_without_ramus(without_ramus):
+    result = run("open", str(FIXTURES.parent / "golden" / "valid.rsf"), "--json")
+    assert result.exit_code == 3
+    assert "Ramus" in envelope(result)["error"]
+
+
+def test_open_missing_file(tmp_path, without_ramus):
+    result = run("open", str(tmp_path / "нет.rsf"))
+    assert result.exit_code == 2
+
+
+def test_open_launches_the_found_ramus(monkeypatch, tmp_path, without_ramus):
+    ramus = tmp_path / "ramus"
+    ramus.write_text("", encoding="utf-8")
+    launched: list[list[str]] = []
+
+    class Fake:
+        def __init__(self, command, **kwargs):
+            launched.append(command)
+
+    monkeypatch.setattr("idefy.cli.subprocess.Popen", Fake)
+    model = FIXTURES.parent / "golden" / "valid.rsf"
+    result = run("open", str(model), "--ramus", str(ramus), "--json")
+    assert result.exit_code == 0
+    assert launched == [[str(ramus), str(model)]]
+    assert envelope(result)["result"]["source"] == "флаг"
+
+
+def test_open_reports_a_failed_launch(monkeypatch, tmp_path, without_ramus):
+    ramus = tmp_path / "ramus"
+    ramus.write_text("", encoding="utf-8")
+
+    def explode(command, **kwargs):
+        raise OSError("Permission denied")
+
+    monkeypatch.setattr("idefy.cli.subprocess.Popen", explode)
+    result = run(
+        "open", str(FIXTURES.parent / "golden" / "valid.rsf"), "--ramus", str(ramus), "--json"
+    )
+    assert result.exit_code == 3
+    assert "Permission denied" in envelope(result)["error"]
+
+
+def test_doctor_passes_with_a_sound_template(without_ramus):
+    result = run("doctor", "--json")
+    assert result.exit_code == 0
+    checks = {check["name"]: check["level"] for check in envelope(result)["result"]["checks"]}
+    assert checks["шаблон .rsf"] == "ok"
+    assert checks["Ramus"] == "warn"
+
+
+def test_doctor_fails_on_a_broken_template(monkeypatch, tmp_path, without_ramus):
+    broken = tmp_path / "blank.rsf"
+    broken.write_text("не архив", encoding="utf-8")
+    monkeypatch.setattr("idefy.cli.write_rsf.template_path", lambda: broken)
+    result = run("doctor", "--json")
+    assert result.exit_code == 3
+    assert envelope(result)["ok"] is False
+
+
+def test_doctor_sees_a_configured_ramus(monkeypatch, tmp_path, without_ramus):
+    ramus = tmp_path / "Ramus.app"
+    ramus.mkdir()
+    monkeypatch.setenv(config.ENV_RAMUS, str(ramus))
+    result = run("doctor", "--json")
+    checks = {check["name"]: check for check in envelope(result)["result"]["checks"]}
+    assert checks["Ramus"]["level"] == "ok"
+    assert "переменная окружения" in checks["Ramus"]["detail"]
+
+
+def test_doctor_human_output(without_ramus):
+    result = run("doctor")
+    assert result.exit_code == 0
+    assert "шаблон .rsf" in result.stdout
